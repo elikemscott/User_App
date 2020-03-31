@@ -1,10 +1,10 @@
 const initialState = {
     users: [
         {
-          category: "Category",
-          description: "Description",
-          amount: "Amount",
-          date: "",
+          name: "Name",
+          email: "Email",
+          gen: "Gen",
+          
           
         }
       ],
@@ -14,10 +14,9 @@ const  usersReducer = (state = initialState, action) =>{
     switch (action.type) {
         case "ADD_USER":
             const newUser = {
-                category: action.payload.category,
-                description: action.payload.description,
-                amount: action.payload.amount,
-                date: action.payload.date
+                name: action.payload.name,
+                email: action.payload.email,
+                gen: action.payload.gen
               };
               return {...state, users: [...state.users, newUser]}
             

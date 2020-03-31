@@ -8,7 +8,6 @@ export default function ExpediLog(props) {
               <h4>Name: {props.name}</h4>
               <p>Email: {props.email}</p>
               <p>Gen: {props.gen}</p>
-              <p>Date: {props.date}</p>
               <hr />
             </div>
           

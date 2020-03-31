@@ -1,42 +1,15 @@
 import React, { Component } from "react";
+import { connect } from 'react-redux';
+import { addUser } from './store/usersAction';
 import "./App.css";
 import UserForm from './components/UsersForm';
 import UserInfo from './components/UserInfo';
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      users: [
-        {
-          name: "Ahmed Zaky",
-          email: "ahmed@email.com",
-          gen: 1
-        },
-        {
-          name: "Kwesi Arthur",
-          email: "kwesi@email.com",
-          gen: 6
-        },
-        {
-          name: "Kuame Uegine",
-          email: "kuame@email.com",
-          gen: 3
-        },
-        {
-          name: "King Promise",
-          email: "king@email.com",
-          gen: 3
-        }
-      ],
-      
-    };
-  }
+  
 
-  AddNewUser = (newUser) => {
-    this.setState({
-      users: [...this.state.users, newUser]
-    });
+  AddNewUser = newUser => {
+   this.props.addUser(newUser)
   };
 
   
@@ -47,10 +20,10 @@ class App extends Component {
         
         <div className = "">
         <div className ="" >
-           {this.state.users.map((field, index) => {
+           {this.props.users.map((field, index) => {
             return (
             <div >
-            <UserInfo key={index } name = {field.name} expenditure={field.email} description={field.gen} />
+            <UserInfo key={index } name = {field.name} email={field.email} gen={field.gen} />
             </div>
           
           );
@@ -68,4 +41,15 @@ class App extends Component {
   }
 }
 
-export default App;
+
+ const mapStateToProps = (state) => ({
+   users: state.users
+
+ })
+
+ const mapDispatchToProps = {
+   addUser: addUser
+
+ }
+
+export default  connect( mapStateToProps, mapDispatchToProps)(App);
