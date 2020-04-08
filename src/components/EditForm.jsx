@@ -1,15 +1,19 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import {connect} from 'react-redux';
+import { editUser } from '../store/usersAction'
 
-class UserForm extends Component {
+class EditForm extends Component {
     constructor(props) {
         super(props)
 
         this.state = {
-            name:'',
-            email:'',
-            gen:'',
+            name: props.user.name,
+            email: props.user.email,
+            gen: props.user.gen,
              
-        }
+        };
+
+        this.id = props.match.params.id
     }
     handleChange = (e) => {
         this.setState({
@@ -19,18 +23,20 @@ class UserForm extends Component {
 
       handleSubmit = (e) => {
         e.preventDefault();
-        const newUser = {
+        const updatedInfo = {
           name: this.state.name,
           email: this.state.email,
           gen: this.state.gen,
         
         };
-        this.props.addUser(newUser) 
+        this.props.editUser(this.id, updatedInfo) 
         this.setState({
           name:'',
           email:'',
           gen:'',
         });
+
+        this.props.history.push('/');
       };
 
     render() {
@@ -42,8 +48,8 @@ class UserForm extends Component {
             
                <span><input placeholder="Name" type ="text" name ="name" value={this.state.name} className ="name" onChange={this.handleChange} /></span><br />
                <span><input placeholder="Email" name ="email" type ="text" value={this.state.email} onChange={this.handleChange} /></span><br />
-               <span><input type = "number" name ="gen" placeholder="Gen"value={this.state.gen} onChange ={this.handleChange}  /></span><br />
-                <button type="submit">Submit</button>
+               <span><input type = " number" name ="gen" placeholder="Gen"value={this.state.gen} onChange ={this.handleChange}  /></span><br />
+                <button type="submit">Update User</button>
     
              
           
@@ -53,4 +59,12 @@ class UserForm extends Component {
     }
 }
 
-export default UserForm;
+const mapStateToProps = (state, ownProps) => ({
+user: state.users.find(user => user.id === ownProps.match.params.id)
+});
+
+const mapDispatchToProps = {
+  editUser: editUser
+}
+
+export default  connect(mapStateToProps, mapDispatchToProps)(EditForm);
